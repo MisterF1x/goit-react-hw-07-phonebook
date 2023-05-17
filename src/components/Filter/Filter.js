@@ -8,11 +8,12 @@ import {
 } from './Filter.styled';
 import { FaRegWindowClose } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFilter, setValue } from 'redux/filterSlice';
+import { setValue } from 'redux/filterSlice';
+import { selectorFilter } from 'redux/selector';
 
 export const ContactsFilter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(getFilter);
+  const filter = useSelector(selectorFilter);
   return (
     <form>
       <FilterGroupBlock>

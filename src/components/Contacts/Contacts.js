@@ -2,29 +2,22 @@ import { IconSize } from 'components/constant';
 import { ContactItem, ContactParagraph, TrashBtn } from './Contacts.styled';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, getContacts } from 'redux/contactsSlice';
-import { getFilter } from 'redux/filterSlice';
+import { selectVisibleContacts } from 'redux/selector';
+import { deleteContact } from 'redux/operation';
 
 export const Contacts = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
-  const getVisibleContact = () => {
-    const normalizedContacts = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedContacts)
-    );
-  };
-  const filteredSortedContacts = getVisibleContact().sort((a, b) =>
+  const contacts = useSelector(selectVisibleContacts);
+  const sortedContacts = contacts.sort((a, b) =>
     a.name.toLowerCase().localeCompare(b.name.toLowerCase())
   );
   return (
     <ul>
-      {filteredSortedContacts.map(({ id, name, number }) => {
+      {sortedContacts.map(({ id, name, phone }) => {
         return (
           <ContactItem key={id}>
             <ContactParagraph>{name}</ContactParagraph>
-            <ContactParagraph>{number}</ContactParagraph>
+            <ContactParagraph>{phone}</ContactParagraph>
             <TrashBtn
               type="button"
               aria-label="delete"

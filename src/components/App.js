@@ -5,19 +5,28 @@ import { ContactForm } from './Form/Form';
 import { Contacts } from './Contacts/Contacts';
 import { Title } from './Contacts/Contacts.styled';
 import { ContactsFilter } from './Filter/Filter';
-import { useSelector } from 'react-redux';
-import { getContacts } from 'redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectorContacts } from 'redux/selector';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/operation';
+import { Loading } from './Loading/Loading';
 
 export const App = () => {
-  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
+  const { items, isLoading, error } = useSelector(selectorContacts);
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   return (
     <Layout>
       <h1>Phonebook</h1>
       <ContactForm />
-      {!!contacts.length && (
+      {!!items.length && (
         <>
           <Title>Contacts</Title>
           <ContactsFilter />
+          {isLoading && !error && <Loading />}
           <Contacts />
         </>
       )}
