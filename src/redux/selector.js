@@ -8,7 +8,6 @@ export const selectorFilter = state => state.filter;
 export const selectVisibleContacts = createSelector(
   [selectorContacts, selectorFilter],
   ({ items }, filter) => {
-    console.log('Calculating task count memoized');
     const normalizedContacts = filter.toLowerCase();
 
     return items.filter(contact =>
